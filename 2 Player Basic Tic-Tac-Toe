@@ -65,10 +65,6 @@ def player_choosing(game_data):
     # Updates Dictionary 
     return game_data
 
-# So that players can see the display confirmation of what they picked 
-def press_to_continue():
-    input("Press any key to continue...")
-
 # User input Function. 
 # Takes the desired position for a mark on the 
 # Gameboard. Pulls Dictionary.
@@ -152,7 +148,7 @@ def continue_playing(game_data):
     
     # Loops until desired input is achieved.
     while question == True:
-        user_input = input("Continue Playing (Y or N)? ")
+        user_input = input("\nAre You Still Playing (Y or N)? ")
         
         # If input is what's needed
         if user_input in ["Y","N"]:
@@ -287,7 +283,7 @@ while game_data["reset"] == True:
     # Assigning marks to players 
     player_choosing(game_data)
     
-    press_to_continue()
+    continue_playing(game_data)
 
     # Loops until Players want to quit  
     while game_data["Playing?"] == "Y":
