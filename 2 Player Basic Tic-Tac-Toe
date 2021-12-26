@@ -10,7 +10,7 @@ game_data = {"Desired_Position":0,"Next_Player": 1,"Game_Board":" ", "Player_1":
 # from indexed strings pulled from a list. 
 def tic_tac_board(game_data):
     board = game_data["Game_Board"]
-    print("\n")
+    print("\nCurrent Game Board\n")
     print(board[6]+" | "+board[7]+" | "+board[8])
     print("---------")
     print(board[3]+" | "+board[4]+" | "+board[5])
