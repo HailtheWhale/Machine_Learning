@@ -171,7 +171,7 @@ while game_on:
                     # Give new total.
                     print(f"You're over but have {player_ace_count} Ace(s)! Your card total is {player_total}. \n")
                     if player_total > 21:
-                        print("Bust! \n")
+                        print("You bust! \n")
                         player_bust = True
                 # If there's no Ace
                 else:
@@ -223,6 +223,7 @@ while game_on:
                     if card.rank == "Ace":
                         computer_ace_count+=1
                 print(f"Computer has {computer_ace_count} Ace(s)")
+                print(f"Computer card total is {computer_total}.")
 
                 # If over 21 
                 if computer_total > 21: 
@@ -233,7 +234,7 @@ while game_on:
                         # Give new total.
                         print(f"Computer is over but has {computer_ace_count} Ace(s)! Computer card total is {computer_total}. \n")
                         if computer_total > 21:
-                            print("Bust! \n")
+                            print("Computer busts! \n")
                             computer_bust = True
                     # If there's no Ace
                     else:
