@@ -144,7 +144,6 @@ while game_on:
         player_cards = []
         hit = True
         player_bust = False
-        player_total = 0
         values['Ace'] = 11
         ace_present = False
 
@@ -154,6 +153,7 @@ while game_on:
             player_cards.append(deck.deal_one())
 
             # Getting summation of Player's hand
+            player_total = 0
             for card in player_cards:
                 player_total+=card.value
 
@@ -210,7 +210,6 @@ while game_on:
         computer_cards = []
         hit = True
         computer_bust = False
-        computer_total = 0
         values['Ace'] = 11
         ace_present = False
 
@@ -220,7 +219,8 @@ while game_on:
             # Dealing
             computer_cards.append(deck.deal_one())
 
-            # Getting summation of Player's hand
+            # Getting summation of Computer's hand
+            computer_total = 0
             for card in computer_cards:
                 computer_total+=card.value
 
