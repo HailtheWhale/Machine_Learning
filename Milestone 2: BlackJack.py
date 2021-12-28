@@ -268,7 +268,7 @@ while game_on:
             winnings = bet_amount * 2
             player_balance.add(winnings)
         # An unlikely tie
-        elif play_total == computer_total:
+        elif player_total == computer_total:
             print("Tie. You get your money back. \n")
             player_balance.add(bet_amount)
        
