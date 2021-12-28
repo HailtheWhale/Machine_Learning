@@ -7,7 +7,7 @@
 # For Shuffling cards 
 import random
 
-# For Deck Generation. Ace is initialized at 1.
+# For Deck Generation.
 suits = ('Hearts', 'Diamonds', 'Spades', 'Clubs')
 ranks = ('Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Jack', 'Queen', 'King', 'Ace')
 values = {'Two':2, 'Three':3, 'Four':4, 'Five':5, 'Six':6, 'Seven':7, 'Eight':8, 
@@ -72,7 +72,6 @@ class PlayerMoney:
     
     def add(self,amount):
         self.balance += amount
-        print(f"You currently have ${self.balance}")
         
     def bet(self,amount):
         if amount > self.balance:
@@ -80,7 +79,7 @@ class PlayerMoney:
             return False
         else:
             self.balance-=amount
-            print(f"You have bet ${amount}. You currently have ${self.balance} left.")
+            print(f"You have bet ${amount}. You currently have ${self.balance} left. \n")
             return True
 
 ##########################
@@ -99,16 +98,16 @@ while game_on:
         deck.shuffle()
 
         # Making sure Player wants to play
-        print(f"Your current balance is ${player_balance.balance} \n")
+        print(f"Your current balance is ${player_balance.balance}")
         while True:
             play_check = input("Play BlackJack (Y or N)? ")
             # If wanted input
             if play_check in ("Y","N"):
                 if play_check == "Y":
-                    print("I'll deal.\n")
+                    print("The computer deals.\n")
                     break
                 elif play_check == "N":
-                    print("Coward.\n")
+                    print("So be it.\n")
                     game_on = False
                     break
             # If not wanted input
@@ -144,11 +143,10 @@ while game_on:
         player_cards = []
         hit = True
         player_bust = False
-        values['Ace'] = 11
-        ace_present = False
 
         # Player goes until they want to stop or bust.
         while hit and not player_bust:
+            
             # Dealing
             player_cards.append(deck.deal_one())
 
@@ -157,30 +155,25 @@ while game_on:
             for card in player_cards:
                 player_total+=card.value
 
-            # Checking if there's an Ace
+            # Checking for Aces
+            player_ace_count = 0
             for card in player_cards:
                 if card.rank == "Ace":
-                    ace_present = True
-                    break
-                else:
-                    ace_present = False
+                    player_ace_count+=1
+            print(f"You have {player_ace_count} Ace(s)")
 
-            # If over 21 and there's no Ace
+            # If over 21
             if player_total > 21: 
-            # If over 21 and there's an Ace
-                if ace_present:
-                    # Set Ace's value = 1
-                    values['Ace'] = 1
-                    # Get hand summation again
-                    player_total = 0
-                    for card in player_cards:
-                        player_total+=card.value
+                # If there's an Ace
+                if player_ace_count > 0:
+                    # adjust score
+                    player_total -=(10*player_ace_count)
                     # Give new total.
-                    print(f"You have an Ace! Your card total is now {player_total}. \n")
+                    print(f"You're over but have {player_ace_count} Ace(s)! Your card total is {player_total}. \n")
                     if player_total > 21:
                         print("Bust! \n")
                         player_bust = True
-
+                # If there's no Ace
                 else:
                     print(f"Your card total is {player_total}. Bust! \n")
                     player_bust = True
@@ -189,12 +182,12 @@ while game_on:
             # It would pass over this, giving an unintended deal which we don't want. 
             if player_total <= 21:
                 while True:
-                    print(f"Your card total is {player_total}.")
+                    print(f"Your card total is {player_total}.\n")
                     play_check = input("Will you hit? (Y or N)? ")
                     # If wanted input
                     if play_check in ("Y","N"):
                         if play_check == "Y":
-                            print("I'll deal.\n")
+                            print("The Computer deals.\n")
                             break
                         elif play_check == "N":
                             print("Coward.\n")
@@ -210,78 +203,75 @@ while game_on:
         computer_cards = []
         hit = True
         computer_bust = False
-        values['Ace'] = 11
-        ace_present = False
+        computer_total = 0
 
-        # Computer goes until they get between 17 and 21 or busts.
-        while computer_total not in range(15,22) and not computer_bust:
+        # Computer goes until it beats the player or busts, assuming the player hasn't busted. 
+        if player_bust == False:
+            while computer_total < player_total and not computer_bust:
 
-            # Dealing
-            computer_cards.append(deck.deal_one())
+                # Dealing
+                computer_cards.append(deck.deal_one())
 
-            # Getting summation of Computer's hand
-            computer_total = 0
-            for card in computer_cards:
-                computer_total+=card.value
+                # Getting summation of Computer's hand
+                computer_total = 0
+                for card in computer_cards:
+                    computer_total+=card.value
 
-            # Checking if there's an Ace
-            for card in computer_cards:
-                if card.rank == "Ace":
-                    ace_present = True
-                    break
-                else:
-                    ace_present = False
+                # Checking if there's an Ace
+                computer_ace_count = 0
+                for card in computer_cards:
+                    if card.rank == "Ace":
+                        computer_ace_count+=1
+                print(f"Computer has {computer_ace_count} Ace(s)")
 
-            # If over 21 and there's no Ace
-            if computer_total > 21: 
-            # If over 21 and there's an Ace
-                if ace_present:
-                    # Set Ace's value = 1
-                    values['Ace'] = 1
-                    # Get hand summation again
-                    computer_total = 0
-                    for card in computer_cards:
-                        computer_total+=card.value
-                    # Give new total.
-                    print(f"Computer has an Ace! Computer card total is now {computer_total}. \n")
-                    if computer_total > 21:
-                        print("Bust! \n")
+                # If over 21 
+                if computer_total > 21: 
+                    # If there's an Ace
+                    if computer_ace_count > 0:
+                        # adjust score
+                        computer_total-=(10*computer_ace_count)
+                        # Give new total.
+                        print(f"Computer is over but has {computer_ace_count} Ace(s)! Computer card total is {computer_total}. \n")
+                        if computer_total > 21:
+                            print("Bust! \n")
+                            computer_bust = True
+                    # If there's no Ace
+                    else:
+                        print(f"Computer card total is {computer_total}. Bust! \n")
                         computer_bust = True
 
-                else:
-                    print(f"Computer card total is {computer_total}. Bust! \n")
-                    computer_bust = True
-
-            # If, NOT elif because if the new value is less than 21 with an Ace 
-            # It would pass over this, giving an unintended deal which we don't want.
-            # Just to give final total at end of computer turn.
-            if total in range(15,22):
-                print(f"Computer stops with a card total of {total}.")
-
+                # If, NOT elif because if the new value is less than 21 with an Ace 
+                # It would pass over this, giving an unintended deal which we don't want.
+                # Just to give final total at end of computer turn.
+                if computer_total >= player_total:
+                    print(f"Computer stops with a card total of {computer_total}.")
+                    
+        elif player_bust == True:
+            print("The computer scoffs.")
         ################
         #Comparisons
         ################
 
         # Busts
         if player_bust == True:
-            print("The Computer Wins!")
+            print("The Computer Wins! \n")
         elif computer_bust == True:
-            print("The Player Wins!")
+            print("You Win! \n")
             winnings = bet_amount * 2
             player_balance.add(winnings)
         # Comparisons
         elif player_total < computer_total:
-            print("The Computer Wins!")
+            print("The Computer Wins! \n")
         elif player_total > computer_total:
-            print("The Player Wins!")
+            print("You Win! \n")
             winnings = bet_amount * 2
             player_balance.add(winnings)
         # An unlikely tie
         elif play_total == computer_total:
-            print("Tie. Player gets their money back.")
+            print("Tie. You get your money back. \n")
             player_balance.add(bet_amount)
        
     # If player has no money.
     else:
-        print("The player is out of money! They must stop!")
+        print("You're out of money! You must stop!")
         game_on = False
