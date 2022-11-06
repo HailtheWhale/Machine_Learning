@@ -1,0 +1,6 @@
+Class Project meant to model the position, 1st order KC's, and 2nd order KC's of an Ornithopter mechanism, among other things, 
+given an input angle, theta, and link lengths. 
+
+It will produce graphs for these things for all input angles theta2 between 0 and 2pi radians. 
+
+This is a MATLAB code. 
